@@ -32,7 +32,6 @@ class NewsController extends Controller
     public function index(): Response
     {
         $news = $this->newsRepository->getNewsForThreeLastDays();
-
         return response()->view('welcome',compact('news'),200);
     }
     /**
@@ -53,7 +52,6 @@ class NewsController extends Controller
     public function getAll(): Response
     {
         $news = $this->newsRepository->all();
-
         return response()->view('welcome',compact('news'),200);
     }
 

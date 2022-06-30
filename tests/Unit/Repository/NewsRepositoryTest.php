@@ -19,7 +19,12 @@ class NewsRepositoryTest extends TestCase
         $newsRepository = $this->app->make(NewsRepositoryInterface::class);
         $news = News::inRandomOrder()->first();
         $new = $newsRepository->find($news->id);
+        $this->assertModelExists($new);
+        $this->assertNotNull($new);
         $this->assertEquals($news->id,$new->id);
+        $this->assertDatabaseHas('news',[
+            'id'=>$new->id
+        ]);
     }
 
     /**
@@ -29,8 +34,16 @@ class NewsRepositoryTest extends TestCase
     {
         $newsRepository = $this->app->make(NewsRepositoryInterface::class);
         $new = $newsRepository->getNewsForThreeLastDays();
-
         $this->assertNotEmpty($new);
+        $this->assertNotNull($new);
+        $this->assertIsNotString($new);
+        foreach($new as $elem) {
+            $this->assertDatabaseHas('news_information',[
+                'name'=>$elem->news_information->name,
+                'text'=>$elem->news_information->text
+            ]);
+        }
+
     }
 
     /**
@@ -41,6 +54,13 @@ class NewsRepositoryTest extends TestCase
         $newsRepository = $this->app->make(NewsRepositoryInterface::class);
         $new = $newsRepository->all();
         $this->assertNotEmpty($new);
+        $this->assertNotNull($new);
+        foreach($new as $elem) {
+            $this->assertDatabaseHas('news_information',[
+                'name'=>$elem->news_information->name,
+                'text'=>$elem->news_information->text
+            ]);
+        }
     }
 
 

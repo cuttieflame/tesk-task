@@ -30,7 +30,7 @@ class NewsRepository implements NewsRepositoryInterface
      */
     public function find(int $id): mixed
     {
-       return $this->news->where('id',$id)->with('room_information')->first();
+       return $this->news->where('id',$id)->with('news_information')->first();
     }
 
     /**
@@ -38,7 +38,7 @@ class NewsRepository implements NewsRepositoryInterface
      */
     public function getNewsForThreeLastDays(): mixed
     {
-        return $this->news->where('created_at','<',Carbon::now()->addDays(3))->get();
+        return $this->news->with('news_information')->whereDate('created_at','>',Carbon::now()->subDays(3))->get();
     }
 
     /**
@@ -46,6 +46,6 @@ class NewsRepository implements NewsRepositoryInterface
      */
     public function all(): mixed
     {
-        return $this->news->orderBy('id')->cursorPaginate(10);
+        return $this->news->orderBy('created_at')->with('news_information')->paginate(10);
     }
 }

@@ -20,6 +20,7 @@ class NewsControllerTest extends TestCase
         $news = News::inRandomOrder()->first();
         $response = $this->get("/news/$news->id");
         $response->assertStatus(200);
+        $response->assertViewIs('welcome');
     }
 
     /**
@@ -30,6 +31,8 @@ class NewsControllerTest extends TestCase
         $news = News::inRandomOrder()->first();
         $response = $this->get("/news/");
         $response->assertStatus(200);
+        $response->assertViewIs('welcome');
+
     }
 
     /**
@@ -40,5 +43,7 @@ class NewsControllerTest extends TestCase
         $news = News::inRandomOrder()->first();
         $response = $this->get("/news/getAll");
         $response->assertStatus(200);
+        $response->assertViewIs('welcome');
+
     }
 }
