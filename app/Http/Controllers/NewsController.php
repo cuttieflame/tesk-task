@@ -42,7 +42,7 @@ class NewsController extends Controller
      */
     public function show(int $id): Response
     {
-        $news = $this->newsRepository->find($id);
+        $news = $this->newsRepository->findById($id);
         return response()->view('welcome',compact('news'),200);
     }
 
@@ -52,6 +52,7 @@ class NewsController extends Controller
     public function getAll(): Response
     {
         $news = $this->newsRepository->all();
+
         return response()->view('welcome',compact('news'),200);
     }
 
