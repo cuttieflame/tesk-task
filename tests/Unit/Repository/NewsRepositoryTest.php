@@ -18,7 +18,7 @@ class NewsRepositoryTest extends TestCase
     {
         $newsRepository = $this->app->make(NewsRepositoryInterface::class);
         $news = News::inRandomOrder()->first();
-        $new = $newsRepository->find($news->id);
+        $new = $newsRepository->findById($news->id);
         $this->assertModelExists($new);
         $this->assertNotNull($new);
         $this->assertEquals($news->id,$new->id);
